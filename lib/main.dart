@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         title: 'LegalLens',
         home: AnimatedSplashScreen(
           splash: Image.asset('assets/images/logo.png'),
-          nextScreen: HomePage(),
+          nextScreen: const HomePage(),
           duration: 2000,
           splashTransition: SplashTransition.scaleTransition,
           centered: true,

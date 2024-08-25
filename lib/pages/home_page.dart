@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:legallens/components/my_list_tile.dart';
 import 'package:legallens/database/database_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,16 +11,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Uint8List? _pdfBytes;
   var pdfs;
+  late String name, path;
 
   @override
   void initState() {
     super.initState();
-    _refreshPDFList();
+    refreshPDFList();
   }
 
-  void _refreshPDFList() {
+  void refreshPDFList() {
     setState(() {
       pdfs = retrievePDFs();
     });
@@ -34,9 +31,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         onPressed: openFile,
-        child: Icon(
+        child: const Icon(
           Icons.camera,
           size: 30.0,
         ),
@@ -45,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           future: pdfs,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (snapshot.hasError) {
@@ -53,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 child: Text('Error: ${snapshot.error}'),
               );
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('No PDFs Uploaded.'),
               );
             } else {
@@ -62,21 +59,11 @@ class _HomePageState extends State<HomePage> {
                 itemCount: pdfs.length,
                 itemBuilder: (context, index) {
                   final pdf = pdfs[index];
-                  return ListTile(
-                    minTileHeight: 70,
-                    title: Text(
-                      pdf['name'],
-                      maxLines: 1,
-                    ),
-                    trailing: IconButton(
-                        onPressed: () {
-                          deletePDF(pdf['id']).then((_) {
-                            setState(() {
-                              _refreshPDFList();
-                            });
-                          });
-                        },
-                        icon: Icon(Icons.delete)),
+                  return MyListTile(
+                    pdf: pdf,
+                    onDelete: () {
+                      refreshPDFList();
+                    },
                   );
                 },
               );
@@ -84,13 +71,13 @@ class _HomePageState extends State<HomePage> {
           }),
       bottomNavigationBar: BottomAppBar(
           color: Theme.of(context).focusColor,
-          shape: CircularNotchedRectangle(),
+          shape: const CircularNotchedRectangle(),
           notchMargin: 8.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(onPressed: () {}, icon: Icon(Icons.home)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.settings))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.home)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
             ],
           )),
       extendBody: true,
@@ -101,29 +88,18 @@ class _HomePageState extends State<HomePage> {
     FilePickerResult? filePickerResult = await FilePicker.platform
         .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
 
-    if (filePickerResult != null) {
-      if (kIsWeb) {
-        _pdfBytes = filePickerResult.files.single.bytes;
-      } else {
-        String? filePath = filePickerResult.files.single.path;
-        if (filePath != null) {
-          _pdfBytes = await File(filePath).readAsBytes();
-        }
-      }
+    if (filePickerResult != null && filePickerResult.files.isNotEmpty) {
+      name = filePickerResult.files.first.name;
+      path = filePickerResult.files.first.path!;
 
-      if (filePickerResult.files.isNotEmpty) {
-        String name = filePickerResult.files.first.name;
-        String path = filePickerResult.files.first.path!;
-
-        await insertPDF(name, path);
-      }
+      await insertPDF(name, path);
     }
-    _refreshPDFList();
+    refreshPDFList();
   }
 
   Future<void> delete(int index) async {
     final pdf = pdfs.length;
     await deletePDF(pdf['id']);
-    _refreshPDFList();
+    refreshPDFList();
   }
 }
