@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:legallens/components/custom_app_bar.dart';
 import 'package:legallens/components/my_list_tile.dart';
 import 'package:legallens/database/database_service.dart';
 
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: const CustomAppBar(title: 'LegalLens'),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
@@ -80,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               IconButton(onPressed: () {}, icon: const Icon(Icons.settings))
             ],
           )),
-      extendBody: true,
+      // extendBody: true,
     );
   }
 

@@ -2,7 +2,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:legallens/pages/home_page.dart';
 import 'package:legallens/theme/light_theme.dart';
-import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
           centered: true,
           splashIconSize: 150.0,
           curve: Curves.fastEaseInToSlowEaseOut,
-          pageTransitionType: PageTransitionType.topToBottom,
           backgroundColor:
               (const Color.fromRGBO(240, 244, 195, 1)), //Hex value: #f0f4c3
         ));

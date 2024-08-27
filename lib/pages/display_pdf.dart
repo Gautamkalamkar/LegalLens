@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
-class DisplayPdf extends StatelessWidget {
+class DisplayPdf extends StatefulWidget {
   const DisplayPdf({super.key, required this.path});
 
   final String path;
 
   @override
+  State<DisplayPdf> createState() => _DisplayPdfState();
+}
+
+class _DisplayPdfState extends State<DisplayPdf> {
+  @override
   Widget build(BuildContext context) {
     return PDFView(
-      filePath: path,
+      filePath: widget.path,
     );
   }
 }

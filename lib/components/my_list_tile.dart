@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:legallens/database/database_service.dart';
 import 'package:legallens/pages/display_pdf.dart';
+import 'package:page_transition/page_transition.dart';
 
 class MyListTile extends StatefulWidget {
   const MyListTile({super.key, required this.pdf, required this.onDelete});
@@ -52,9 +53,9 @@ class _MyListTileState extends State<MyListTile> {
       onTap: () {
         Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => DisplayPdf(path: widget.pdf['path']),
-            ));
+            PageTransition(
+                child: DisplayPdf(path: widget.pdf['path']),
+                type: PageTransitionType.fade));
       },
     );
   }
