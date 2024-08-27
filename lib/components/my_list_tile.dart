@@ -17,29 +17,34 @@ class _MyListTileState extends State<MyListTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25),
         alignment: Alignment.center,
-        height: 70,
+        height: MediaQuery.of(context).size.width * 0.18,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              widget.pdf['name'],
-              maxLines: 1,
-              style: const TextStyle(
-                fontSize: 16,
+            Expanded(
+              child: Text(
+                widget.pdf['name'],
+                maxLines: 1,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                deletePDF(widget.pdf['id']).then((_) {
-                  setState(() {
-                    widget.onDelete();
+            CircleAvatar(
+              backgroundColor: Colors.red[100],
+              child: IconButton(
+                onPressed: () {
+                  deletePDF(widget.pdf['id']).then((_) {
+                    setState(() {
+                      widget.onDelete();
+                    });
                   });
-                });
-              },
-              icon: const Icon(Icons.delete_outline),
-              splashRadius: 30,
+                },
+                icon: const Icon(Icons.delete_outline),
+                splashRadius: 30,
+              ),
             )
           ],
         ),
