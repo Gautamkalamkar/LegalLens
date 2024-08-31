@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var pdfs;
-  late String name, path;
+  late String name, path, text;
 
   @override
   void initState() {

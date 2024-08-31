@@ -13,8 +13,13 @@ class DisplayPdf extends StatefulWidget {
 class _DisplayPdfState extends State<DisplayPdf> {
   @override
   Widget build(BuildContext context) {
-    return PDFView(
-      filePath: widget.path,
+    return Scaffold(
+      body: PDFView(
+        filePath: widget.path,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {}, label: const Text('Process this PDF!')),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
