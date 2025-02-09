@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:legallens/pages/splash_screen.dart';
+import 'package:legallens/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color(0xff007BFF),
           )),
       title: 'Flutter Demo',
-      home: SplashScreen(),
+      home: HomePage(),
     );
   }
 }
