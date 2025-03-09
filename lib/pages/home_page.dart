@@ -25,9 +25,9 @@ class _HomePageState extends State<HomePage> {
             fontSize: size.height * 0.03),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: size.height * 0.02),
+            padding: EdgeInsets.only(right: size.height * 0.04),
             child: Icon(
-              Icons.more_vert,
+              Icons.menu,
               color: Theme.of(context).colorScheme.onPrimary,
               size: size.height * 0.03,
             ),
@@ -43,16 +43,19 @@ class _HomePageState extends State<HomePage> {
           mainAxisSpacing: 20,
           children: [
             DocumentContainer(
-                path: 'assets/icons/contract.png', text: 'Contract'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
+                path: 'assets/icons/contract.png', text: 'Contracts'),
             DocumentContainer(
-                path: 'assets/icons/confidential_document.png',
-                text: 'Confidential'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
-            DocumentContainer(path: 'assets/icons/will.png', text: 'Will'),
+                path: 'assets/icons/court.png', text: 'Court Docs'),
+            DocumentContainer(
+                path: 'assets/icons/intellectual.png', text: 'Intellectual'),
+            DocumentContainer(
+                path: 'assets/icons/finance.png', text: 'Finance'),
+            DocumentContainer(
+                path: 'assets/icons/corporate.png', text: 'Corporate'),
+            DocumentContainer(path: 'assets/icons/family.png', text: 'Family'),
+            DocumentContainer(
+                path: 'assets/icons/real_estate.png', text: 'Real Estate'),
+            DocumentContainer(path: 'assets/icons/other.png', text: 'Other'),
           ],
         ),
       ),
