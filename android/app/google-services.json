@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772856837706",
+    "project_id": "legallens-2c844",
+    "storage_bucket": "legallens-2c844.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772856837706:android:3ecd12c14dc51f1c0b18b3",
+        "android_client_info": {
+          "package_name": "com.example.legallens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwztg3v2i2_3pK73hyXAB0rVoTtGIdtGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
