@@ -11,6 +11,15 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   bool _obscureText = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: size.width * 0.1,
               ),
               Text(
-                'Welcome back',
+                'Register Yourself',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width * 0.06,
@@ -38,11 +47,12 @@ class _SignupPageState extends State<SignupPage> {
               SizedBox(
                 height: size.width * 0.02,
               ),
-              Text('Sign up to continue your journey'),
+              Text('Create an account. It\'s free'),
               SizedBox(
                 height: size.width * 0.09,
               ),
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   fillColor: Colors.blue,
                   hintText: 'Enter your Email here',
@@ -53,6 +63,7 @@ class _SignupPageState extends State<SignupPage> {
                 height: size.width * 0.05,
               ),
               TextField(
+                controller: _passwordController,
                 obscureText: _obscureText,
                 decoration: InputDecoration(
                     fillColor: Colors.blue,
@@ -80,7 +91,7 @@ class _SignupPageState extends State<SignupPage> {
                         backgroundColor: Colors.greenAccent,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
-                    child: Text('Sign In'),
+                    child: Text('Sign Up'),
                   )),
               SizedBox(
                 height: size.width * 0.02,
@@ -88,15 +99,16 @@ class _SignupPageState extends State<SignupPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account?'),
+                  Text('Already have an account?'),
                   TextButton(
+                      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()));
                       },
-                      child: Text('Sign Up'))
+                      child: Text('Sign In'))
                 ],
               )
             ],

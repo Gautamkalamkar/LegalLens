@@ -11,6 +11,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: size.width * 0.12,
               ),
               Text(
-                'Register Yourself',
+                'Welcome Back!',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width * 0.06,
@@ -40,11 +49,12 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: size.width * 0.02,
               ),
-              Text('Create an account. It\'s free'),
+              Text('Sign in to continue your journey'),
               SizedBox(
                 height: size.width * 0.09,
               ),
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   fillColor: Colors.blue,
                   hintText: 'Enter your Email here',
@@ -55,6 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: size.width * 0.05,
               ),
               TextField(
+                controller: _passwordController,
                 obscureText: _obscureText,
                 decoration: InputDecoration(
                     fillColor: Colors.blue,
@@ -92,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text('Don\'t have an account ?'),
                   TextButton(
+                      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
                       onPressed: () {
                         Navigator.push(
                             context,
