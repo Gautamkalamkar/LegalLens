@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
             seedColor: const Color(0xff007BFF),
           )),
       title: 'Flutter Demo',
-      // home: HomePage(),
       home: LoginPage(),
     );
   }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:legallens/pages/signup_page.dart';
+import 'package:legallens/pages/login_page.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   bool _obscureText = true;
 
   @override
@@ -18,20 +18,18 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 80, bottom: 80, left: 40, right: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Lottie.asset(
-                'assets/animations/login.json',
-                repeat: false,
+                'assets/animations/register.json',
               ),
               SizedBox(
-                height: size.width * 0.12,
+                height: size.width * 0.1,
               ),
               Text(
-                'Register Yourself',
+                'Welcome back',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width * 0.06,
@@ -40,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: size.width * 0.02,
               ),
-              Text('Create an account. It\'s free'),
+              Text('Sign up to continue your journey'),
               SizedBox(
                 height: size.width * 0.09,
               ),
@@ -90,13 +88,13 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account ?'),
+                  Text('Don\'t have an account?'),
                   TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignupPage()));
+                                builder: (context) => LoginPage()));
                       },
                       child: Text('Sign Up'))
                 ],
