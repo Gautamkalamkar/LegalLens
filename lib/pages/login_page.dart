@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:legallens/main.dart';
 import 'package:legallens/pages/signup_page.dart';
 import 'package:lottie/lottie.dart';
 
@@ -19,6 +21,22 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  Future<void> signInUserWithEmailAndPassword() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.message}')),
+      );
+    }
   }
 
   @override
@@ -87,7 +105,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await signInUserWithEmailAndPassword();
+                    },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
                         backgroundColor: Colors.greenAccent,

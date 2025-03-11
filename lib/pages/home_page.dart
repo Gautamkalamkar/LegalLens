@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:legallens/components/document_container.dart';
 
@@ -9,6 +10,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<void> logoutUser() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -23,16 +32,30 @@ class _HomePageState extends State<HomePage> {
             fontFamily: 'Lexend',
             color: Theme.of(context).colorScheme.onPrimary,
             fontSize: size.height * 0.03),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: size.height * 0.04),
-            child: Icon(
-              Icons.menu,
-              color: Theme.of(context).colorScheme.onPrimary,
-              size: size.height * 0.03,
-            ),
-          )
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.only(right: size.height * 0.04),
+        //     child: Icon(
+        //       Icons.menu,
+        //       color: Theme.of(context).colorScheme.onPrimary,
+        //       size: size.height * 0.03,
+        //     ),
+        //   )
+        // ],
+      ),
+      endDrawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(child: Icon(Icons.abc)),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () async {
+                await logoutUser();
+              },
+            )
+          ],
+        ),
       ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Container(
