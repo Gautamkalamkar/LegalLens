@@ -10,7 +10,7 @@ class DocumentContainer extends StatelessWidget {
     var size = MediaQuery.sizeOf(context);
     return GestureDetector(
       onTap: () {
-        print(Theme.of(context).primaryColor);
+        print(Theme.of(context).colorScheme.primaryContainer);
       },
       child: Material(
         borderRadius: BorderRadius.circular(20),
