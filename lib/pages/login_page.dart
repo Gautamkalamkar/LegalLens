@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
-                        backgroundColor: Colors.greenAccent,
+                        backgroundColor: Colors.black12,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
                     child: Text('Sign In'),

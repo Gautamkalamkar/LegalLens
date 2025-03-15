@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 
 class DocumentContainer extends StatelessWidget {
-  const DocumentContainer({super.key, required this.path, required this.text});
+  const DocumentContainer(
+      {super.key, required this.path, required this.text, required this.page});
 
   final String path, text;
+  final Widget page;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => page,
+            ));
+      },
       child: Material(
         borderRadius: BorderRadius.circular(20),
         color: Theme.of(context).colorScheme.primaryContainer,

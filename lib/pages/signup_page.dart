@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:legallens/main.dart';
 import 'package:legallens/pages/login_page.dart';
 import 'package:lottie/lottie.dart';
 
@@ -27,6 +28,10 @@ class _SignupPageState extends State<SignupPage> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim());
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('SignUp failed: ${e.message}')),
@@ -103,7 +108,7 @@ class _SignupPageState extends State<SignupPage> {
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
-                        backgroundColor: Colors.greenAccent,
+                        backgroundColor: Colors.black12,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
                     child: Text('Sign Up'),
