@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class DocumentView extends StatelessWidget {
-  const DocumentView({super.key});
+  const DocumentView({super.key, required this.name, required this.path});
+
+  final String name;
+  final String path;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class DocumentView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Document Name',
+              name,
               style:
                   TextStyle(fontFamily: 'Lexend', fontWeight: FontWeight.w100),
             ),

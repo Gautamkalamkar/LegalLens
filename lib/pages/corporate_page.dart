@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:legallens/components/document_view.dart';
 
 class CorporatePage extends StatefulWidget {
   const CorporatePage({super.key});
@@ -43,11 +42,6 @@ class _CorporatePageState extends State<CorporatePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Container(
-          child: Column(
-            children: [DocumentView(), DocumentView()],
-          ),
-        ),
       ),
     );
   }
