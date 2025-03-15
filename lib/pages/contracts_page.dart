@@ -27,6 +27,13 @@ class _ContractsPageState extends State<ContractsPage> {
     }
   }
 
+  void _deleteContract(int index) {
+    setState(() {
+      contracts.removeAt(index); // Remove the contract from the list
+      box.put('contracts', contracts); // Update the Hive box
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,7 +64,11 @@ class _ContractsPageState extends State<ContractsPage> {
           itemCount: contracts.length,
           itemBuilder: (context, index) {
             final contract = contracts[index];
-            return DocumentView(name: contract['name'], path: contract['path']);
+            return DocumentView(
+              name: contract['name'],
+              path: contract['path'],
+              onDelete: () => _deleteContract(index),
+            );
           },
         ),
       ),
@@ -77,6 +88,8 @@ class _ContractsPageState extends State<ContractsPage> {
                 contracts.add({'name': file.name.trim(), 'path': file.path});
 
                 box.put('contracts', contracts);
+                // contracts.clear();
+                // box.delete('contracts');
                 setState(() {});
               }
             },

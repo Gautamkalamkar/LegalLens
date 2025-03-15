@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class DocumentView extends StatelessWidget {
-  const DocumentView({super.key, required this.name, required this.path});
+  const DocumentView(
+      {super.key,
+      required this.name,
+      required this.path,
+      required this.onDelete});
 
   final String name;
   final String path;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +28,16 @@ class DocumentView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              name,
-              style:
-                  TextStyle(fontFamily: 'Lexend', fontWeight: FontWeight.w100),
+            Expanded(
+              child: Text(
+                name,
+                style: TextStyle(
+                    fontFamily: 'Lexend', fontWeight: FontWeight.w100),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-            Icon(Icons.delete),
+            IconButton(onPressed: onDelete, icon: Icon(Icons.delete)),
           ],
         ),
       ),
