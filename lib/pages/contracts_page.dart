@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:legallens/components/document_view.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ContractsPage extends StatefulWidget {
   const ContractsPage({super.key});
@@ -12,13 +15,15 @@ class ContractsPage extends StatefulWidget {
 
 class _ContractsPageState extends State<ContractsPage> {
   final box = Hive.box('documentsBox');
+  final prompt =
+      "Analyze the provided legal document (agreement/contract) and perform the following tasks:Document Identification: Understand the type of contract/agreement and, if possible, the industry or context it belongs to. Use this understanding to tailor the analysis, but do not explicitly generate a 'Document Type and Context' section in the response.High-Level Summary: Write the entire summary in one concise paragraph. Focus on key elements such as parties involved, main obligations, payment terms, termination clauses, and other critical provisions. Use simple, easy-to-understand language and avoid legal jargon unless briefly explained.Risk Identification: Identify and list all significant risks in the document. Prioritize risks based on their potential impact (e.g., financial, legal, operational) and likelihood. Present them in bullet points, with the highest priority risks first. Include the page number(s) where each risk statement is found in the document.Risk Mitigation Suggestions: Provide actionable suggestions to mitigate or improve the identified risks. Tailor the suggestions to the specific risks and context of the document.Tone and Format: Use clear and simple language for readability. Ensure the response is structured as follows:Summary (one paragraph) Identified Risks (with page numbers) Mitigation Suggestions.Audience: Assume the user has no legal background and tailor the response for clarity and simplicity.Additional Instructions: Do not include any headings or subheadings in the response.The response should flow naturally from the summary to the risks and then to the mitigation suggestions.Use the understanding of the document type and context to inform the analysis, but do not explicitly state it in the output.";
   List<Map<dynamic, dynamic>> contracts = [];
 
   bool _isDuplicate(String name) {
     return contracts.any((contract) => contract['name'] == name);
   }
 
-  void _loadContracts() {
+  void loadContracts() {
     final data = box.get('contracts', defaultValue: <Map>[]);
     if (data is List) {
       contracts = data.cast<Map<dynamic, dynamic>>(); // Safely cast the data
@@ -37,7 +42,7 @@ class _ContractsPageState extends State<ContractsPage> {
   @override
   void initState() {
     super.initState();
-    _loadContracts();
+    loadContracts();
   }
 
   @override
@@ -83,13 +88,25 @@ class _ContractsPageState extends State<ContractsPage> {
               if (result == null) return;
 
               PlatformFile file = result.files.first;
-              _loadContracts();
+              loadContracts();
+              PdfDocument document =
+                  PdfDocument(inputBytes: File(file.path!).readAsBytesSync());
+              String text = PdfTextExtractor(document).extractText();
               if (!_isDuplicate(file.name.trim())) {
-                contracts.add({'name': file.name.trim(), 'path': file.path});
+                contracts.add({
+                  'name': file.name.trim(),
+                  'path': file.path,
+                  'text': text
+                });
 
                 box.put('contracts', contracts);
                 // contracts.clear();
                 // box.delete('contracts');
+                // for (var contract in contracts) {
+                //   print(
+                //       'Name: ${contract['name']}, Path: ${contract['path']}, Text: ${contract['text']}');
+                // }
+                document.dispose();
                 setState(() {});
               }
             },

@@ -43,6 +43,8 @@ dependencies:
   hive_ce: ^2.10.1
   hive_ce_flutter: ^2.2.0
   flutter_pdfview: ^1.4.0
+  syncfusion_flutter_pdf: ^28.2.11
+  deepseek_api: ^0.1.2
 
 dev_dependencies:
   flutter_test:
