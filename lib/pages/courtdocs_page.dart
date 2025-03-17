@@ -22,7 +22,7 @@ class _CourtdocsPageState extends State<CourtdocsPage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('courtDocs', courtDocs, box);
+    courtDocs = _hiveService.loadKey('courtDocs', courtDocs, box);
   }
 
   @override
@@ -88,6 +88,7 @@ class _CourtdocsPageState extends State<CourtdocsPage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                courtDocs = _hiveService.loadKey('courtDocs', courtDocs, box);
                 setState(() {});
               }
             },

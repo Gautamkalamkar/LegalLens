@@ -22,7 +22,7 @@ class _RealestatePageState extends State<RealestatePage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('realEstates', realEstates, box);
+    realEstates = _hiveService.loadKey('realEstates', realEstates, box);
   }
 
   @override
@@ -89,6 +89,8 @@ class _RealestatePageState extends State<RealestatePage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                realEstates =
+                    _hiveService.loadKey('realEstates', realEstates, box);
                 setState(() {});
               }
             },

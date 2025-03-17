@@ -46,12 +46,19 @@ class DocumentView extends StatelessWidget {
                 child: Text(
                   name,
                   style: TextStyle(
-                      fontFamily: 'Lexend', fontWeight: FontWeight.w100),
+                      fontFamily: 'Lexend',
+                      fontWeight: FontWeight.w100,
+                      color: Colors.black),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
               ),
-              IconButton(onPressed: onDelete, icon: Icon(Icons.delete)),
+              IconButton(
+                  onPressed: onDelete,
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.black,
+                  )),
             ],
           ),
         ),

@@ -22,7 +22,7 @@ class _FinancePageState extends State<FinancePage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('finances', finances, box);
+    finances = _hiveService.loadKey('finances', finances, box);
   }
 
   @override
@@ -88,6 +88,7 @@ class _FinancePageState extends State<FinancePage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                finances = _hiveService.loadKey('finances', finances, box);
                 setState(() {});
               }
             },

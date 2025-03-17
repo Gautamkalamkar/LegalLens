@@ -22,7 +22,7 @@ class _OtherPageState extends State<OtherPage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('others', others, box);
+    others = _hiveService.loadKey('others', others, box);
   }
 
   @override
@@ -88,6 +88,7 @@ class _OtherPageState extends State<OtherPage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                others = _hiveService.loadKey('others', others, box);
                 setState(() {});
               }
             },

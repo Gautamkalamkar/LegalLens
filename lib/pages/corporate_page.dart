@@ -22,7 +22,7 @@ class _CorporatePageState extends State<CorporatePage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('corporates', corporates, box);
+    corporates = _hiveService.loadKey('corporates', corporates, box);
   }
 
   @override
@@ -88,6 +88,8 @@ class _CorporatePageState extends State<CorporatePage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                corporates =
+                    _hiveService.loadKey('corporates', corporates, box);
                 setState(() {});
               }
             },

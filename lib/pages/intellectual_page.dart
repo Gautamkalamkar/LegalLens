@@ -22,7 +22,7 @@ class _IntellectualPageState extends State<IntellectualPage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('intellectuals', intellectuals, box);
+    intellectuals = _hiveService.loadKey('intellectuals', intellectuals, box);
   }
 
   @override
@@ -89,6 +89,8 @@ class _IntellectualPageState extends State<IntellectualPage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                intellectuals =
+                    _hiveService.loadKey('intellectuals', intellectuals, box);
                 setState(() {});
               }
             },

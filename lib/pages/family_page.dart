@@ -22,7 +22,7 @@ class _FamilyPageState extends State<FamilyPage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('families', families, box);
+    families = _hiveService.loadKey('families', families, box);
   }
 
   @override
@@ -88,6 +88,7 @@ class _FamilyPageState extends State<FamilyPage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                families = _hiveService.loadKey('families', families, box);
                 setState(() {});
               }
             },

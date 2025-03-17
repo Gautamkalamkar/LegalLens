@@ -22,7 +22,7 @@ class _ContractsPageState extends State<ContractsPage> {
   @override
   void initState() {
     super.initState();
-    _hiveService.loadKey('contracts', contracts, box);
+    contracts = _hiveService.loadKey('contracts', contracts, box);
   }
 
   @override
@@ -88,6 +88,7 @@ class _ContractsPageState extends State<ContractsPage> {
 
                 //Dispose the document and update the UI
                 document.dispose();
+                contracts = _hiveService.loadKey('contracts', contracts, box);
                 setState(() {});
               }
             },

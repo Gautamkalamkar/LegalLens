@@ -1,12 +1,13 @@
 import 'package:hive_ce/hive.dart';
 
 class HiveService {
-  void loadKey(String keyName, dynamic key, Box<dynamic> box) {
+  List<Map<dynamic, dynamic>> loadKey(
+      String keyName, dynamic key, Box<dynamic> box) {
     final data = box.get(keyName, defaultValue: <Map>[]);
     if (data is List) {
-      key = data.cast<Map<dynamic, dynamic>>(); // Safely cast the data
+      return key = data.cast<Map<dynamic, dynamic>>(); // Safely cast the data
     } else {
-      key = []; // Fallback to an empty list if the data is invalid
+      return []; // Fallback to an empty list if the data is invalid
     }
   }
 
