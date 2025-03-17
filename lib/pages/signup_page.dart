@@ -102,6 +102,7 @@ class _SignupPageState extends State<SignupPage> {
               ),
               SizedBox(
                   width: double.infinity,
+                  height: size.height * 0.06,
                   child: TextButton(
                     onPressed: () async {
                       await createUserWithEmailAndPassword();

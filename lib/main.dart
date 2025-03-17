@@ -5,6 +5,7 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:legallens/firebase_options.dart';
 import 'package:legallens/pages/home_page.dart';
 import 'package:legallens/pages/login_page.dart';
+import 'package:legallens/themes/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +23,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color(0xff007BFF),
-            )),
-        title: 'Flutter Demo',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        title: 'LegalLens',
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {

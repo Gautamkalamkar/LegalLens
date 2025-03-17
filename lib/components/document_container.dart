@@ -20,7 +20,7 @@ class DocumentContainer extends StatelessWidget {
       },
       child: Material(
         borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.surface,
         elevation: 20,
         child: Container(
           alignment: Alignment.center,

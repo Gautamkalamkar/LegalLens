@@ -10,14 +10,9 @@ import 'package:legallens/pages/intellectual_page.dart';
 import 'package:legallens/pages/other_page.dart';
 import 'package:legallens/pages/realestate_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   Future<void> logoutUser() async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -40,16 +35,23 @@ class _HomePageState extends State<HomePage> {
             fontFamily: 'Lexend',
             color: Theme.of(context).colorScheme.onPrimary,
             fontSize: size.height * 0.03),
-        // actions: [
-        //   Padding(
-        //     padding: EdgeInsets.only(right: size.height * 0.04),
-        //     child: Icon(
-        //       Icons.menu,
-        //       color: Theme.of(context).colorScheme.onPrimary,
-        //       size: size.height * 0.03,
-        //     ),
-        //   )
-        // ],
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: size.height * 0.03),
+            child: Builder(
+              builder: (context) {
+                return IconButton(
+                  icon: Icon(Icons.menu),
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  iconSize: size.height * 0.03,
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                );
+              },
+            ),
+          )
+        ],
       ),
       endDrawer: Drawer(
         child: ListView(

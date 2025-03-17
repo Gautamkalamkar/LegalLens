@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      // backgroundColor: Theme.of(context).colorScheme.primary,
       body: SingleChildScrollView(
         child: Padding(
           padding:
@@ -62,12 +63,16 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: size.width * 0.06,
-                    fontFamily: 'Lexend'),
+                    fontFamily: 'Lexend',
+                    color: Theme.of(context).colorScheme.onPrimary),
               ),
               SizedBox(
                 height: size.width * 0.02,
               ),
-              Text('Sign in to continue your journey'),
+              Text(
+                'Sign in to continue your journey',
+                style: TextStyle(),
+              ),
               SizedBox(
                 height: size.width * 0.09,
               ),
@@ -104,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(
                   width: double.infinity,
+                  height: size.height * 0.06,
                   child: TextButton(
                     onPressed: () async {
                       await signInUserWithEmailAndPassword();
@@ -129,6 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => SignupPage()));
+
+                        print(Theme.of(context).colorScheme.primary);
                       },
                       child: Text('Sign Up'))
                 ],
