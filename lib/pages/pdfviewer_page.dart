@@ -10,7 +10,20 @@ class PdfviewerPage extends StatelessWidget {
 
   final String pdfPath;
   final String contractPrompt =
-      "Analyze the provided legal document (agreement/contract) and perform the following tasks:Document Identification: Identify the type of contract/agreement and, if possible, the industry or context it belongs to. State this at the beginning of the analysis.High-Level Summary: Write the entire summary in one concise paragraph. Focus on key elements such as parties involved, main obligations, payment terms, termination clauses, and other critical provisions. Use simple, easy-to-understand language and avoid legal jargon unless briefly explained.Risk Identification: Identify and list all significant risks in the document. Prioritize risks based on their potential impact (e.g., financial, legal, operational) and likelihood. Present them in bullet points, with the highest priority risks first. Include the page number(s) where each risk statement is found in the document.Risk Mitigation Suggestions: Provide actionable suggestions to mitigate or improve the identified risks. Tailor the suggestions to the specific risks and context of the document.Tone and Format: Use clear headings, bullet points, and simple language for readability. Ensure the response is structured as follows: Document Type and Context Summary(one paragraph) Identified Risks(with page numbers) Mitigation Suggestions. Audience: Assume the user has no legal background and tailor the response for clarity and simplicity.";
+      "Analyze the provided legal document (agreement/contract) and perform the following tasks: "
+      "1. **Document Identification**: Understand the type of contract/agreement and, if possible, the industry or context it belongs to. Use this understanding to tailor the analysis, but **do not explicitly generate a 'Document Type and Context' section in the response**. "
+      "2. **High-Level Summary**: Write the entire summary in one concise paragraph. Focus on key elements such as parties involved, main obligations, payment terms, termination clauses, and other critical provisions. Use simple, easy-to-understand language and avoid legal jargon unless briefly explained. "
+      "3. **Risk Identification**: Identify and list all significant risks in the document. Prioritize risks based on their potential impact (e.g., financial, legal, operational) and likelihood. Present them in bullet points, with the highest priority risks first. Include the page number(s) where each risk statement is found in the document. "
+      "4. **Risk Mitigation Suggestions**: Provide actionable suggestions to mitigate or improve the identified risks. Tailor the suggestions to the specific risks and context of the document. "
+      "5. **Tone and Format**: Use clear and simple language for readability. Structure the response as follows: "
+      "   - Start the **summary** with the marker `[SUMMARY]`. "
+      "   - Start the **risk identification** section with the marker `[RISKS]`. "
+      "   - Start the **mitigation suggestions** section with the marker `[MITIGATIONS]`. "
+      "6. **Audience**: Assume the user has no legal background and tailor the response for clarity and simplicity. "
+      "7. **Additional Instructions**: "
+      "   - **Do not include any headings or subheadings in the response**. "
+      "   - **Do not generate a 'Document Type and Context' section**. Use the understanding of the document type and context to inform the analysis, but do not explicitly state it in the output. "
+      "   - Ensure the summary, risks, and mitigations are clearly separated by their respective markers.";
 
   @override
   Widget build(BuildContext context) {

@@ -4,14 +4,14 @@ class DeepseekService {
   Future<String> accessDeepseek(String text, String prompt) async {
     final deepseek = DeepSeekAPI(
       apiKey:
-          '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',
+          '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',
       baseUrl: 'https://openrouter.ai/api/v1',
     );
 
     // Create a chat completion request
     final response = await deepseek.createChatCompletion(
       ChatCompletionRequest(
-        model: 'deepseek/deepseek-chat',
+        model: 'deepseek/deepseek-chat:free',
         messages: [
           ChatMessage(
             role: 'user',
