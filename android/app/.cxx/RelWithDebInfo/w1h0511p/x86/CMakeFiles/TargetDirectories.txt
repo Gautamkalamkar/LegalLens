@@ -1,0 +1,2 @@
+D:/flutter projects/LegalLens/android/app/.cxx/RelWithDebInfo/w1h0511p/x86/CMakeFiles/edit_cache.dir
+D:/flutter projects/LegalLens/android/app/.cxx/RelWithDebInfo/w1h0511p/x86/CMakeFiles/rebuild_cache.dir
