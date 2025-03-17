@@ -6,10 +6,12 @@ class DocumentView extends StatelessWidget {
       {super.key,
       required this.name,
       required this.path,
-      required this.onDelete});
+      required this.onDelete,
+      required this.docType});
 
   final String name;
   final String path;
+  final String docType;
   final VoidCallback onDelete;
 
   @override
@@ -20,7 +22,10 @@ class DocumentView extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PdfviewerPage(pdfPath: path),
+              builder: (context) => PdfviewerPage(
+                pdfPath: path,
+                docType: docType,
+              ),
             ));
       },
       child: Card(

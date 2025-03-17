@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:legallens/main.dart';
 import 'package:legallens/pages/login_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:legallens/services/firebase_service.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -15,28 +14,13 @@ class _SignupPageState extends State<SignupPage> {
   bool _obscureText = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseService _firebaseService = FirebaseService();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-  }
-
-  Future<void> createUserWithEmailAndPassword() async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim());
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-      );
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('SignUp failed: ${e.message}')),
-      );
-    }
   }
 
   @override
@@ -105,7 +89,10 @@ class _SignupPageState extends State<SignupPage> {
                   height: size.height * 0.06,
                   child: TextButton(
                     onPressed: () async {
-                      await createUserWithEmailAndPassword();
+                      await _firebaseService.createUserWithEmailAndPassword(
+                          _emailController.text,
+                          _passwordController.text,
+                          context);
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),

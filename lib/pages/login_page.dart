@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:legallens/main.dart';
 import 'package:legallens/pages/signup_page.dart';
+import 'package:legallens/services/firebase_service.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,28 +14,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FirebaseService _firebaseService = FirebaseService();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-  }
-
-  Future<void> signInUserWithEmailAndPassword() async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim());
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MyApp()),
-      );
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed: ${e.message}')),
-      );
-    }
   }
 
   @override
@@ -112,7 +96,10 @@ class _LoginPageState extends State<LoginPage> {
                   height: size.height * 0.06,
                   child: TextButton(
                     onPressed: () async {
-                      await signInUserWithEmailAndPassword();
+                      await _firebaseService.signInUserWithEmailAndPassword(
+                          _emailController.text,
+                          _passwordController.text,
+                          context);
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
@@ -138,7 +125,10 @@ class _LoginPageState extends State<LoginPage> {
 
                         print(Theme.of(context).colorScheme.primary);
                       },
-                      child: Text('Sign Up'))
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(color: Color(0xFFBCA16E)),
+                      ))
                 ],
               )
             ],

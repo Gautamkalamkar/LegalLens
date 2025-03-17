@@ -45,6 +45,7 @@ dependencies:
   flutter_pdfview: ^1.4.0
   syncfusion_flutter_pdf: ^28.2.11
   deepseek_api: ^0.1.2
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

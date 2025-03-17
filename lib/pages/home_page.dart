@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:legallens/components/document_container.dart';
 import 'package:legallens/pages/contracts_page.dart';
@@ -9,17 +8,12 @@ import 'package:legallens/pages/finance_page.dart';
 import 'package:legallens/pages/intellectual_page.dart';
 import 'package:legallens/pages/other_page.dart';
 import 'package:legallens/pages/realestate_page.dart';
+import 'package:legallens/services/firebase_service.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
-  Future<void> logoutUser() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
-  }
+  final FirebaseService _firebaseService = FirebaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +55,7 @@ class HomePage extends StatelessWidget {
               leading: Icon(Icons.logout),
               title: Text('Logout'),
               onTap: () async {
-                await logoutUser();
+                await _firebaseService.logoutUser();
               },
             )
           ],

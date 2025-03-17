@@ -4,7 +4,7 @@ class DeepseekService {
   Future<String> accessDeepseek(String text, String prompt) async {
     final deepseek = DeepSeekAPI(
       apiKey:
-          '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',
+          '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',
       baseUrl: 'https://openrouter.ai/api/v1',
     );
 
