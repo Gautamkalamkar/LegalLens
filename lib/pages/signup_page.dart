@@ -27,6 +27,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
@@ -58,6 +59,7 @@ class _SignupPageState extends State<SignupPage> {
                 decoration: InputDecoration(
                   fillColor: Colors.blue,
                   hintText: 'Enter your Email here',
+                  hintStyle: TextStyle(color: Colors.black38),
                   prefixIcon: Icon(Icons.email),
                 ),
               ),
@@ -70,6 +72,7 @@ class _SignupPageState extends State<SignupPage> {
                 decoration: InputDecoration(
                     fillColor: Colors.blue,
                     hintText: 'Enter your password here',
+                    hintStyle: TextStyle(color: Colors.black38),
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -96,10 +99,13 @@ class _SignupPageState extends State<SignupPage> {
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
-                    child: Text('Sign Up'),
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )),
               SizedBox(
                 height: size.width * 0.02,

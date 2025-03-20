@@ -8,12 +8,7 @@ ThemeData lightTheme = ThemeData(
     ),
     scaffoldBackgroundColor: const Color(0xFF435E91),
     textTheme: GoogleFonts.outfitTextTheme()
-        .apply(bodyColor: Colors.white, displayColor: Colors.white),
-    inputDecorationTheme: InputDecorationTheme(
-        labelStyle: TextStyle(color: Colors.white), // Labels for TextField
-        hintStyle: TextStyle(color: Colors.white), // Hint text
-        border: OutlineInputBorder(
-            borderSide: BorderSide(style: BorderStyle.none))),
+        .apply(bodyColor: Colors.black, displayColor: Colors.black),
     iconTheme: IconThemeData(
       color: Colors.white,
     ));

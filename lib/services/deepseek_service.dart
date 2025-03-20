@@ -4,7 +4,7 @@ class DeepseekService {
   Future<String> accessDeepseek(String text, String prompt) async {
     final deepseek = DeepSeekAPI(
       apiKey:
-          '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',
+          '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',
       baseUrl: 'https://openrouter.ai/api/v1',
     );
 
@@ -20,7 +20,7 @@ class DeepseekService {
           ChatMessage(role: 'system', content: prompt)
         ],
         temperature: 0.7,
-        maxTokens: 100,
+        maxTokens: 400,
       ),
     );
 

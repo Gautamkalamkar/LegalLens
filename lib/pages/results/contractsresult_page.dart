@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ContractsresultPage extends StatelessWidget {
-  const ContractsresultPage({super.key, required this.response});
+  ContractsresultPage({super.key, required this.response});
 
   final String response;
+  final PageController _pageController = PageController();
 
   String extractSummary(String response) {
     if (response.contains("[SUMMARY]")) {
@@ -51,72 +55,167 @@ class ContractsresultPage extends StatelessWidget {
     return ["No risks found."]; // Fallback if [RISKS] marker is missing
   }
 
+  Future<void> _createAndSavePdf() async {
+    // Create a new PDF document
+    final PdfDocument document = PdfDocument();
+
+    // Add a page to the document
+    final PdfPage page = document.pages.add();
+
+    // Create a PDF text element for the summary
+    final PdfTextElement summaryElement = PdfTextElement(
+      text: extractSummary(response),
+      font: PdfStandardFont(PdfFontFamily.helvetica, 12),
+    );
+
+    // Draw the summary on the page
+    summaryElement.draw(
+      page: page,
+      bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 50),
+    );
+
+    // Add risk statements to the PDF
+    final List<String> formattedRisks =
+        extractAndFormatRiskStatements(response);
+    double yOffset = 50; // Start below the summary
+    for (String risk in formattedRisks) {
+      final PdfTextElement riskElement = PdfTextElement(
+        text: risk,
+        font: PdfStandardFont(PdfFontFamily.helvetica, 12),
+      );
+      riskElement.draw(
+        page: page,
+        bounds: Rect.fromLTWH(0, yOffset, page.getClientSize().width, 20),
+      );
+      yOffset += 20; // Move down for the next risk
+    }
+
+    // Save the document to a file
+    final List<int> bytes = await document.save();
+    document.dispose();
+
+    // Get the directory for saving the file
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final String path = '${directory.path}/contract_summary.pdf';
+    final File file = File(path);
+    await file.writeAsBytes(bytes, flush: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     List<String> formattedRisks = extractAndFormatRiskStatements(response);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: PageView(
+        controller: _pageController,
         children: [
           Container(
-            padding: EdgeInsets.all(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Summary',
-                    style: TextStyle(
+            padding: EdgeInsets.only(top: 50, bottom: 30, left: 30, right: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Summary',
+                  style: TextStyle(
                       fontSize: size.width * 0.09,
                       fontFamily: 'Lexend',
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.width * 0.15,
-                  ),
-                  Container(
+                      color: Colors.black),
+                ),
+                SizedBox(
+                  height: size.width * 0.15,
+                ),
+                Text(
+                  extractSummary(response),
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(color: Colors.black),
+                ),
+                Spacer(),
+                SizedBox(
+                    width: double.infinity,
+                    height: size.height * 0.06,
+                    child: TextButton(
+                      onPressed: () {
+                        _pageController.nextPage(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOut);
+                      },
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.all(15.0),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0))),
                       child: Text(
-                    extractSummary(response),
-                    textAlign: TextAlign.justify,
-                  )),
-                ],
-              ),
+                        'Next',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ),
+                    )),
+              ],
             ),
           ),
           Container(
-            padding: EdgeInsets.all(20.0),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Risk Statements in the document',
-                    style: TextStyle(
-                      fontSize: size.width * 0.09,
-                      fontFamily: 'Lexend',
-                    ),
+            padding: EdgeInsets.only(top: 50, bottom: 30, left: 30, right: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Risk Statements',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: size.width * 0.09,
+                    fontFamily: 'Lexend',
+                    color: Colors.black,
                   ),
-                  SizedBox(
-                    height: size.width * 0.05,
+                ),
+                SizedBox(
+                  height: size.width * 0.03,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: formattedRisks.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          style: TextStyle(color: Colors.black),
+                          formattedRisks[index],
+                          textAlign: TextAlign.justify,
+                        ),
+                      );
+                    },
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: formattedRisks.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text(
-                            formattedRisks[index],
-                            textAlign: TextAlign.justify,
-                          ),
-                        );
+                ),
+                SizedBox(
+                  height: size.width * 0.1,
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    height: size.height * 0.06,
+                    child: TextButton(
+                      onPressed: () {
+                        _pageController.nextPage(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeInOut);
                       },
-                    ),
-                  )
-                ],
-              ),
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.all(15.0),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0))),
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onPrimaryContainer),
+                      ),
+                    )),
+              ],
             ),
           ),
         ],

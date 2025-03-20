@@ -20,16 +20,17 @@ class HiveService {
     box.put(keyName, key);
   }
 
-  String retrieveTextFromHive(Box<dynamic> box, String pdfPath) {
-    List<dynamic> contracts = box.get('contracts');
+  String retrieveTextFromHive(
+      Box<dynamic> box, String pdfPath, String keyName) {
+    List<dynamic> keys = box.get(keyName);
 
     // Find the contract with the matching pdfPath
-    final contract = contracts.firstWhere(
-      (contract) => contract['path'] == pdfPath,
+    final key = keys.firstWhere(
+      (key) => key['path'] == pdfPath,
       orElse: () => {},
     );
 
     // Retrieve the text from the contract
-    return contract['text'] ?? 'No text found';
+    return key['text'] ?? 'No text found';
   }
 }

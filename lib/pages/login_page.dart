@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding:
@@ -45,17 +45,16 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Welcome Back!',
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: size.width * 0.06,
-                    fontFamily: 'Lexend',
-                    color: Theme.of(context).colorScheme.onPrimary),
+                  fontWeight: FontWeight.bold,
+                  fontSize: size.width * 0.06,
+                  fontFamily: 'Lexend',
+                ),
               ),
               SizedBox(
                 height: size.width * 0.02,
               ),
               Text(
                 'Sign in to continue your journey',
-                style: TextStyle(),
               ),
               SizedBox(
                 height: size.width * 0.09,
@@ -65,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   fillColor: Colors.blue,
                   hintText: 'Enter your Email here',
+                  hintStyle: TextStyle(color: Colors.black38),
                   prefixIcon: Icon(Icons.email),
                 ),
               ),
@@ -77,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                     fillColor: Colors.blue,
                     hintText: 'Enter your password here',
+                    hintStyle: TextStyle(color: Colors.black38),
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: IconButton(
                         onPressed: () {
@@ -103,10 +104,13 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.all(15.0),
-                        backgroundColor: Colors.black12,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
-                    child: Text('Sign In'),
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   )),
               SizedBox(
                 height: size.width * 0.02,
@@ -127,7 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: Text(
                         'Sign Up',
-                        style: TextStyle(color: Color(0xFFBCA16E)),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
                       ))
                 ],
               )

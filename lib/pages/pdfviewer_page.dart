@@ -165,7 +165,7 @@ class PdfviewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final box = Hive.box('documentsBox');
     final HiveService hiveService = HiveService();
-    final String text = hiveService.retrieveTextFromHive(box, pdfPath);
+    final String text = hiveService.retrieveTextFromHive(box, pdfPath, docType);
     return Scaffold(
         body: PDFView(
           filePath: pdfPath,
