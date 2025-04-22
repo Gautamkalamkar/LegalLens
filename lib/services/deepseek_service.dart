@@ -1,29 +1,36 @@
-import 'package:deepseek_api/deepseek_api.dart';
+// import 'package:deepseek_api/deepseek_api.dart';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class DeepseekService {
   Future<String> accessDeepseek(String text, String prompt) async {
-    final deepseek = DeepSeekAPI(
-      apiKey:
-          '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',
-      baseUrl: 'https://openrouter.ai/api/v1',
-    );
+    const url = 'https://openrouter.ai/api/v1/chat/completions';
+    const apiKey =
+        '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';
 
-    // Create a chat completion request
-    final response = await deepseek.createChatCompletion(
-      ChatCompletionRequest(
-        model: 'deepseek/deepseek-chat:free',
-        messages: [
-          ChatMessage(
-            role: 'user',
-            content: text,
-          ),
-          ChatMessage(role: 'system', content: prompt)
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $apiKey',
+        'Content-Type': 'application/json', // optional but recommended
+      },
+      body: jsonEncode({
+        'model': 'deepseek/deepseek-chat:free',
+        'messages': [
+          {'role': 'system', 'content': prompt},
+          {'role': 'user', 'content': text},
         ],
-        temperature: 0.7,
-        maxTokens: 400,
-      ),
+        'temperature': 0.7,
+        'max_tokens': 400,
+      }),
     );
 
-    return response.choices.first.message.content;
+    if (response.statusCode != 200) {
+      throw Exception('Failed: ${response.statusCode} ${response.body}');
+    }
+
+    final json = jsonDecode(response.body);
+    return json['choices'][0]['message']['content'];
   }
 }

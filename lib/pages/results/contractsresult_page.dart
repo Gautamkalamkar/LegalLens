@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ContractsresultPage extends StatelessWidget {
@@ -55,50 +57,81 @@ class ContractsresultPage extends StatelessWidget {
     return ["No risks found."]; // Fallback if [RISKS] marker is missing
   }
 
-  Future<void> _createAndSavePdf() async {
-    // Create a new PDF document
-    final PdfDocument document = PdfDocument();
+  Future<void> _createAndSavePdf(BuildContext context) async {
+    try {
+      // Request storage permission
+      if (!await _requestStoragePermission()) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Storage permission is required to save the PDF.')),
+        );
+        return;
+      }
 
-    // Add a page to the document
-    final PdfPage page = document.pages.add();
-
-    // Create a PDF text element for the summary
-    final PdfTextElement summaryElement = PdfTextElement(
-      text: extractSummary(response),
-      font: PdfStandardFont(PdfFontFamily.helvetica, 12),
-    );
-
-    // Draw the summary on the page
-    summaryElement.draw(
-      page: page,
-      bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 50),
-    );
-
-    // Add risk statements to the PDF
-    final List<String> formattedRisks =
-        extractAndFormatRiskStatements(response);
-    double yOffset = 50; // Start below the summary
-    for (String risk in formattedRisks) {
-      final PdfTextElement riskElement = PdfTextElement(
-        text: risk,
+      // Create PDF
+      final PdfDocument document = PdfDocument();
+      final PdfPage page = document.pages.add();
+      final PdfTextElement summaryElement = PdfTextElement(
+        text: extractSummary(response),
         font: PdfStandardFont(PdfFontFamily.helvetica, 12),
       );
-      riskElement.draw(
+
+      summaryElement.draw(
         page: page,
-        bounds: Rect.fromLTWH(0, yOffset, page.getClientSize().width, 20),
+        bounds: Rect.fromLTWH(0, 0, page.getClientSize().width, 50),
       );
-      yOffset += 20; // Move down for the next risk
+
+      // Add risk statements
+      final List<String> formattedRisks =
+          extractAndFormatRiskStatements(response);
+      double yOffset = 50;
+      for (String risk in formattedRisks) {
+        final PdfTextElement riskElement = PdfTextElement(
+          text: risk,
+          font: PdfStandardFont(PdfFontFamily.helvetica, 12),
+        );
+        riskElement.draw(
+          page: page,
+          bounds: Rect.fromLTWH(0, yOffset, page.getClientSize().width, 20),
+        );
+        yOffset += 20;
+      }
+
+      final List<int> bytes = await document.save();
+      document.dispose();
+
+      // Let user pick a directory
+      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+
+      // Save PDF
+      final String path = '$selectedDirectory/contract_summary.pdf';
+      final File file = File(path);
+      await file.writeAsBytes(bytes, flush: true);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('PDF saved to $path')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to save PDF: $e')),
+      );
     }
+  }
 
-    // Save the document to a file
-    final List<int> bytes = await document.save();
-    document.dispose();
+  // Function to request storage permissions
+  Future<bool> _requestStoragePermission() async {
+    if (Platform.isAndroid) {
+      final status = await Permission.storage.request();
 
-    // Get the directory for saving the file
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final String path = '${directory.path}/contract_summary.pdf';
-    final File file = File(path);
-    await file.writeAsBytes(bytes, flush: true);
+      if (status.isGranted) {
+        return true;
+      } else if (status.isPermanentlyDenied) {
+        openAppSettings();
+      }
+
+      return false;
+    }
+    return true; // No permission needed for iOS
   }
 
   @override
@@ -196,10 +229,9 @@ class ContractsresultPage extends StatelessWidget {
                     width: double.infinity,
                     height: size.height * 0.06,
                     child: TextButton(
-                      onPressed: () {
-                        _pageController.nextPage(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeInOut);
+                      onPressed: () async {
+                        await _createAndSavePdf(
+                            context); // Await the PDF creation
                       },
                       style: TextButton.styleFrom(
                           padding: EdgeInsets.all(15.0),
@@ -208,7 +240,7 @@ class ContractsresultPage extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0))),
                       child: Text(
-                        'Next',
+                        'Download PDF',
                         style: TextStyle(
                             color: Theme.of(context)
                                 .colorScheme
